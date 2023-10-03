@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../Shared/Navbar/Navbar";
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
@@ -11,6 +11,8 @@ export default function Login() {
 
   const { signIn } = useContext(AuthContext)
 
+  const navigate = useNavigate();
+  const location = useLocation()
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -20,7 +22,9 @@ export default function Login() {
     const password = form.get('password');
 
     signIn(email, password)
-    .then(result => console.log('Login successfully'))
+    .then(result => {
+      location.state? navigate(location.state): navigate('/');
+    })
     .catch(error => console.log(error.message))
   }
 
