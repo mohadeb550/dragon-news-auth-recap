@@ -2,14 +2,26 @@ import { Link } from "react-router-dom";
 import Navbar from "../Shared/Navbar/Navbar";
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 
 
 export default function Login() {
 
+  const { signIn } = useContext(AuthContext)
+
 
   const handleLogin = (e) => {
+    e.preventDefault();
 
+    const form = new FormData(e.target);
+    const email = form.get('email');
+    const password = form.get('password');
+
+    signIn(email, password)
+    .then(result => console.log('Login successfully'))
+    .catch(error => console.log(error.message))
   }
 
   return (
@@ -45,7 +57,7 @@ export default function Login() {
             </label>
 
             <div>
-                <h4 className="text-sm font-semibold"> Don't Have An Account? <Link to='/signUp'> <span className="text-orange-500  hover:underline"> Sign Up </span></Link> </h4>
+                <h4 className="text-sm font-semibold"> Don't Have An Account? <Link to='/register'> <span className="text-orange-500  hover:underline"> Sign Up </span></Link> </h4>
             </div>
 
             <div className="flex justify-evenly gap-5 mt-4 ">
